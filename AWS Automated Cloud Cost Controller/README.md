@@ -1,127 +1,147 @@
-💰 AWS Automated Cloud Cost Controller
-
-A fully automated cloud cost optimization project that identifies idle Amazon EC2 instances using CloudWatch metrics and automatically stops them to avoid unnecessary AWS charges — powered by AWS Lambda, Amazon EventBridge, Amazon SNS, and IAM.
+🌤️ AWS Serverless Weather Alert System
+A fully automated serverless project that fetches real-time weather data for a city using OpenWeatherMap API and sends alerts via Amazon SNS when certain conditions are met — all powered by AWS Lambda, EventBridge, and IAM.
 
 🛠️ Tech Stack
-
-AWS EC2
-AWS Lambda (Python)
-Amazon CloudWatch
-Amazon EventBridge (Scheduler)
+AWS Lambda
 Amazon SNS
-IAM Roles & Policies
+Amazon EventBridge (CloudWatch Events)
+OpenWeatherMap API
+IAM Roles/Policies
 Serverless Architecture
-
 📌 Project Use Case
+Many times we want alerts when it's going to rain heavily, storm, or be extremely hot/cold. This project lets you:
 
-In many cloud environments, EC2 instances are left running even when they are not actively used, which results in unnecessary cloud costs. This project helps you:
-
-✅ Automatically stop idle EC2 instances
-✅ Reduce AWS cloud expenses
-✅ Eliminate manual monitoring
-✅ Receive email notifications when actions are taken
+✅ Receive automated email alerts based on weather
+✅ Run a Lambda function on a schedule (hourly, daily etc.)
+✅ Integrate external APIs with AWS
 
 🧠 How It Works
-
-EventBridge triggers the Lambda function on a fixed schedule
-→ Lambda fetches EC2 CPU utilization metrics from CloudWatch
-→ If CPU usage is below the defined threshold
-→ EC2 instance is stopped automatically
-→ SNS sends an email notification
+User specifies city → Lambda fetches weather via OpenWeatherMap API
+→ If condition (e.g. Rain, Thunderstorm) is met → SNS triggers Email
 → Done!
-
-📐 Architecture Overview
-
-+---------------------+ Scheduled Trigger +-----------------------+
-| EventBridge | --------------------------> | AWS Lambda |
-| (Rate-based Rule) | | (Idle EC2 Checker) |
-+---------------------+ +-----------+-----------+
-|
-| CloudWatch Metrics
-▼
-+---------------------+
-| Amazon EC2 |
-| (Idle Instance) |
-+---------------------+
-|
-| SNS Publish
-▼
-+---------------------+
-| Amazon SNS |
-| (Email Alerts) |
-+---------------------+
-|
-Email Notification Sent
-
+📐 Architecture Diagram
+ChatGPT Image Aug 7, 2025, 01_02_39 PM
++-------------------+       HTTP Request      +-----------------------+
+|   EventBridge     |  -------------------->  |    AWS Lambda         |
+| (Scheduled Rule)  |                         | (Python weather fetch)|
++-------------------+                         +-----------+-----------+
+                                                          |
+                                                          | SNS Publish
+                                                          ▼
+                                                +------------------+
+                                                |  Amazon SNS      |
+                                                |  (WeatherAlert)  |
+                                                +------------------+
+                                                         |
+                                                Email Alert Sent!
 📦 Setup Guide
-
-🔹 1. Create an EC2 Test Instance
-Launch an EC2 instance using Amazon Linux and keep it idle without any workload.
-
-📸 Screenshot: EC2 instance running
-
-🔹 2. Create SNS Topic
+🔹 1. Create SNS Topic
 Go to Amazon SNS → Create topic
 Choose Standard
-Name: ec2-idle-alerts
+Name: WeatherAlert
+Click Create Topic
+📸 Screenshot 2025-07-18 171121 Screenshot 2025-07-18 171137
 
-📸 Screenshot: SNS topic created
-
-🔹 3. Subscribe an Email to SNS
-Inside the SNS topic → Create subscription
+🔹 2. Subscribe an Email to SNS
+Inside your topic → Click Create subscription
 Protocol: Email
 Endpoint: Your email address
-Confirm the subscription from your inbox
+Confirm subscription from your inbox.
+📸 Screenshot 2025-07-18 171228
 
-📸 Screenshot: Email subscription confirmed
+🔹 3. Get API Key from OpenWeatherMap
+Go to: https://openweathermap.org/api
+Sign up → Copy the API Key
+📸 Screenshot 2025-08-07 120501
 
-🔹 4. Create IAM Role for Lambda
-Create an IAM role for Lambda and attach permissions for EC2, CloudWatch, and SNS access.
+🔹 4. Create Lambda Function
+Runtime: Python 3.12
+Name: weatheralertfunction
+Paste the following code:
+import json
+import urllib.request
+import boto3
 
-📸 Screenshot: IAM role permissions
+sns = boto3.client("sns")
 
-🔹 5. Create Lambda Function
-Create a Lambda function using Python runtime.
-Attach the IAM role and add logic to check EC2 CPU usage and stop idle instances.
+def lambda_handler(event, context):
+    city = "Mumbai"  # You can replace this with your city.
+    api_key = "YOUR_OPENWEATHERMAP_API_KEY"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
-📸 Screenshot: Lambda code and deployment
+    try:
+        with urllib.request.urlopen(url) as response:
+            data = json.loads(response.read().decode("utf-8"))
 
-🔹 6. Create Scheduled Rule (EventBridge)
-Create an EventBridge rule using the visual rule builder.
-Configure a rate-based schedule (for example: every 30 minutes).
-Set the Lambda function as the target.
+        temperature = data["main"]["temp"]
+        weather = data["weather"][0]["description"]
 
-📸 Screenshot: EventBridge rule configuration
+        message = f"🌦️ Weather Alert for {city}:\nTemperature: {temperature}°C\nCondition: {weather}"
+
+        if "rain" in weather.lower() or temperature > 40:
+            message += "\n⚠️ Warning: Extreme conditions!"
+
+        # Replace with your actual SNS Topic ARN
+        sns.publish(
+            TopicArn="YOUR_SNS_TOPIC_ARN",
+            Message=message,
+            Subject="🚨 Weather Alert"
+        )
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps({"message": "Alert sent successfully", "details": message})
+        }
+
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"error": str(e)})
+        }
+📸 Screenshot 2025-07-18 170524 Screenshot 2025-07-18 170710
+
+🔹 5. Add IAM Permissions to Lambda and Edit Environment Variables.
+Go to Lambda → Permissions tab
+Click on Execution Role
+Attach Policy: In JSON or VISUAL
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sns:Publish",
+      "Resource": "arn:aws:sns:us-east-1:YOUR_ACCOUNT_ID:WeatherAlert"
+    }
+  ]
+}
+📸 Screenshot 2025-07-18 171522 Screenshot 2025-07-18 171636 Screenshot 2025-07-18 172725 Screenshot 2025-07-18 172735 Screenshot 2025-07-18 173039 Screenshot 2025-07-18 173200
+
+🔹 6. Create Scheduled Trigger (EventBridge)
+Go to Lambda → Triggers → + Add trigger
+Choose: EventBridge (CloudWatch Events)
+Create a new rule:
+Name: HourlyWeatherCheck
+Schedule expression: rate(1 hour)
+Save trigger.
+📸 Screenshot 2025-07-18 173329 Screenshot 2025-07-18 173606
 
 ✅ Testing the System
-
-Keep the EC2 instance idle
-Wait for EventBridge to invoke the Lambda function
-Verify EC2 state change from Running → Stopped
-Check Lambda logs in CloudWatch
-Confirm SNS email notification
-
-📸 Screenshot: EC2 stopped
-📸 Screenshot: Lambda logs
-📸 Screenshot: Email alert
-
-📈 Outcome
-
-The project successfully automated the detection and stopping of idle EC2 instances, reducing unnecessary cloud costs and manual operational effort.
-
-🔮 Future Enhancements
-
-Add tag-based protection for production instances
-Calculate estimated cost savings
-Automatically restart instances during business hours
-Extend support for multi-account environments
+Click Test inside Lambda to trigger manually.
+Or wait for EventBridge to invoke it on schedule.
+Check your inbox for email like:
+Subject: ⚠️ Weather Alert
+Body: Weather Alert for Pune: Thunderstorm, Temperature: 31°C
+📸 Screenshot 2025-07-18 173816
 
 🏁 Conclusion
+This project gave me hands-on experience with:
 
-This project provided hands-on experience with AWS automation, serverless architecture, cloud monitoring, and cost optimization. It demonstrates how real-world cloud challenges can be solved using AWS-native services.
-
+Real-world API integration
+AWS SNS notifications
+Scheduled event triggers
+IAM roles & permissions
 🧑‍💻 Author
+UJJWAL WADHAI
 
-Your Name
-GitHub: your-github-link
-LinkedIn: your-linkedin-link
+🔗 GitHub 🔗 LinkedIn
+
