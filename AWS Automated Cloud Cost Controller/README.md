@@ -1,4 +1,4 @@
-<img width="1775" height="595" alt="Screenshot 2025-12-31 014955" src="https://github.com/user-attachments/assets/de39e91c-af1f-4d49-b6ed-fe0ff4cb5718" />## 💰 AWS Automated Cloud Cost Controller
+## 💰 AWS Automated Cloud Cost Controller
 
 A fully automated cloud cost optimization project that identifies idle Amazon EC2 instances using CloudWatch metrics and automatically stops them to avoid unnecessary AWS charges — all powered by AWS Lambda, Amazon EventBridge, Amazon SNS, and IAM.
 
