@@ -1,4 +1,4 @@
-## 💰 AWS Automated Cloud Cost Controller
+<img width="1775" height="595" alt="Screenshot 2025-12-31 014955" src="https://github.com/user-attachments/assets/de39e91c-af1f-4d49-b6ed-fe0ff4cb5718" />## 💰 AWS Automated Cloud Cost Controller
 
 A fully automated cloud cost optimization project that identifies idle Amazon EC2 instances using CloudWatch metrics and automatically stops them to avoid unnecessary AWS charges — all powered by AWS Lambda, Amazon EventBridge, Amazon SNS, and IAM.
 
@@ -63,7 +63,8 @@ Launch an EC2 instance using Amazon Linux
 
 Keep the instance idle (no workload)
 
-📸 Screenshot: EC2 instance running
+<img width="1919" height="927" alt="Screenshot 2025-12-31 013129" src="https://github.com/user-attachments/assets/1807b5de-30cb-4539-be8f-37ecf2091cbd" />
+
 
 🔹 2. Create SNS Topic
 
@@ -73,7 +74,8 @@ Choose Standard
 
 Name: ec2-idle-alerts
 
-📸 Screenshot: SNS topic created
+<img width="1910" height="925" alt="Screenshot 2025-12-31 013425" src="https://github.com/user-attachments/assets/bd661f1d-1556-4988-bfdd-3fd9138d040b" />
+
 
 🔹 3. Subscribe Email to SNS
 
@@ -87,7 +89,8 @@ Endpoint: your email
 
 Confirm subscription from inbox
 
-📸 Screenshot: Email subscription confirmed
+<img width="1919" height="610" alt="image" src="https://github.com/user-attachments/assets/f471bb78-9845-4215-9184-8903c5e74da3" />
+
 
 🔹 4. Create IAM Role for Lambda
 
@@ -99,7 +102,8 @@ CloudWatchReadOnlyAccess
 
 AmazonSNSFullAccess
 
-📸 Screenshot: IAM role permissions
+<img width="1516" height="364" alt="Screenshot 2025-12-31 013718" src="https://github.com/user-attachments/assets/da4b2766-7d20-4dd9-9c55-96f322f5a1ca" />
+
 
 🔹 5. Create Lambda Function
 
@@ -115,7 +119,9 @@ Stop idle EC2 instances
 
 Send SNS email
 
-📸 Screenshot: Lambda code & deployment
+<img width="1917" height="922" alt="Screenshot 2025-12-31 013814" src="https://github.com/user-attachments/assets/828ef8c9-c895-4e30-8144-769503968466" />
+<img width="1918" height="916" alt="Screenshot 2025-12-31 014348" src="https://github.com/user-attachments/assets/cff52a34-e41e-4514-8f45-ae45fc570f7f" />
+
 
 🔹 6. Create Scheduled Rule (EventBridge)
 
@@ -128,7 +134,9 @@ rate(30 minutes)
 
 Target: Lambda function
 
-📸 Screenshot: EventBridge rule configuration
+<img width="1883" height="893" alt="Screenshot 2025-12-31 014859" src="https://github.com/user-attachments/assets/91acfab7-09da-49df-919b-83dde33408f0" />
+<img width="1775" height="595" alt="Screenshot 2025-12-31 014955" src="https://github.com/user-attachments/assets/0a54dc36-a9b9-42cd-ab8c-b0039b872406" />
+
 
 ## ✅ Testing the System
 
@@ -144,9 +152,9 @@ Lambda logs (CloudWatch)
 
 SNS email notification
 
-📸 Screenshot: EC2 stopped
-📸 Screenshot: Lambda logs
-📸 Screenshot: Email alert
+<img width="1916" height="924" alt="Screenshot 2025-12-31 015328" src="https://github.com/user-attachments/assets/f23bb84c-1db6-4adf-9d7b-d9f4eb8e90fe" />
+<img width="1917" height="918" alt="Screenshot 2025-12-31 015349" src="https://github.com/user-attachments/assets/f45896aa-aefc-47f0-8cdf-7ad70ce99d66" />
+
 
 ## 📈 Outcome
 
@@ -175,3 +183,4 @@ This project demonstrates how AWS serverless services can be combined to solve r
 Your Name
 🔗 GitHub: your-github-link
 🔗 LinkedIn: your-linkedin-link
+
