@@ -35,26 +35,13 @@ EventBridge triggers the Lambda function on a fixed schedule
 → Done!
 
 ## 📐 Architecture Overview
-+---------------------+        Scheduled Trigger        +-----------------------+
-|   EventBridge       |  -------------------------->  |     AWS Lambda        |
-| (Rate-based Rule)   |                                | (Idle EC2 Checker)    |
-+---------------------+                                +-----------+-----------+
-                                                                |
-                                                                | CloudWatch Metrics
-                                                                ▼
-                                                      +---------------------+
-                                                      |     Amazon EC2      |
-                                                      |  (Idle Instance)    |
-                                                      +---------------------+
-                                                                |
-                                                                | SNS Publish
-                                                                ▼
-                                                      +---------------------+
-                                                      |     Amazon SNS      |
-                                                      |  (Email Alerts)     |
-                                                      +---------------------+
-                                                                |
-                                                      Email Notification Sent
+
+![Uploading Cloud Project 1 architecture..png…]()
+
+
+<img width="902" height="624" alt="image" src="https://github.com/user-attachments/assets/a9ba9e99-6056-4aca-ba5a-cfefb8d89e53" />
+
+
 
 ## 📦 Setup Guide
 ## 🔹 1. Create an EC2 Test Instance
@@ -183,5 +170,6 @@ This project demonstrates how AWS serverless services can be combined to solve r
 Your Name
 🔗 GitHub: your-github-link
 🔗 LinkedIn: your-linkedin-link
+
 
 
