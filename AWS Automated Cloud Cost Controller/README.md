@@ -168,8 +168,9 @@ This project demonstrates how AWS serverless services can be combined to solve r
 ## 🧑‍💻 Author
 
 Your Name
-🔗 GitHub: your-github-link
-🔗 LinkedIn: your-linkedin-link
+🔗 GitHub: https://github.com/IshanKatariya
+🔗 LinkedIn: https://www.linkedin.com/in/ishaan-katariya-268b8534a/
+
 
 
 
