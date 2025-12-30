@@ -1,6 +1,6 @@
 💰 AWS Automated Cloud Cost Controller
 
-A fully automated cloud cost optimization project that detects idle Amazon EC2 instances using CloudWatch metrics and automatically stops them to avoid unnecessary AWS charges. The solution is built using a serverless architecture powered by AWS Lambda, Amazon EventBridge, Amazon SNS, and IAM.
+A fully automated cloud cost optimization project that identifies idle Amazon EC2 instances using CloudWatch metrics and automatically stops them to avoid unnecessary AWS charges — powered by AWS Lambda, Amazon EventBridge, Amazon SNS, and IAM.
 
 🛠️ Tech Stack
 
@@ -14,68 +14,111 @@ Serverless Architecture
 
 📌 Project Use Case
 
-In many cloud environments, EC2 instances are left running even when they are not actively used. This leads to unnecessary cloud expenses. This project helps to automatically identify such idle instances and stop them without manual intervention.
+In many cloud environments, EC2 instances are left running even when they are not actively used, which results in unnecessary cloud costs. This project helps you:
 
-Key benefits:
-• Automatically stops idle EC2 instances
-• Reduces AWS cloud costs
-• Eliminates manual monitoring
-• Sends email notifications when an action is taken
+✅ Automatically stop idle EC2 instances
+✅ Reduce AWS cloud expenses
+✅ Eliminate manual monitoring
+✅ Receive email notifications when actions are taken
 
 🧠 How It Works
 
-EventBridge triggers the Lambda function on a fixed schedule.
-Lambda retrieves CPU utilization metrics for running EC2 instances from CloudWatch.
-If the CPU utilization is below a defined threshold, the EC2 instance is considered idle.
-The idle EC2 instance is stopped automatically.
-An email notification is sent using Amazon SNS.
+EventBridge triggers the Lambda function on a fixed schedule
+→ Lambda fetches EC2 CPU utilization metrics from CloudWatch
+→ If CPU usage is below the defined threshold
+→ EC2 instance is stopped automatically
+→ SNS sends an email notification
+→ Done!
 
 📐 Architecture Overview
 
-EventBridge (Scheduled Rule) triggers AWS Lambda.
-AWS Lambda queries CloudWatch for EC2 CPU utilization metrics.
-Based on the metrics, Lambda stops idle EC2 instances.
-Amazon SNS sends an email alert to notify the user of the action taken.
++---------------------+ Scheduled Trigger +-----------------------+
+| EventBridge | --------------------------> | AWS Lambda |
+| (Rate-based Rule) | | (Idle EC2 Checker) |
++---------------------+ +-----------+-----------+
+|
+| CloudWatch Metrics
+▼
++---------------------+
+| Amazon EC2 |
+| (Idle Instance) |
++---------------------+
+|
+| SNS Publish
+▼
++---------------------+
+| Amazon SNS |
+| (Email Alerts) |
++---------------------+
+|
+Email Notification Sent
 
 📦 Setup Guide
 
-Step 1: Create an EC2 test instance
+🔹 1. Create an EC2 Test Instance
 Launch an EC2 instance using Amazon Linux and keep it idle without any workload.
 
-Step 2: Create an SNS topic
-Create an Amazon SNS topic and configure an email subscription. Confirm the subscription from your email.
+📸 Screenshot: EC2 instance running
 
-Step 3: Create an IAM role for Lambda
-Create an IAM role with permissions to access EC2, CloudWatch, and SNS services.
+🔹 2. Create SNS Topic
+Go to Amazon SNS → Create topic
+Choose Standard
+Name: ec2-idle-alerts
 
-Step 4: Create the Lambda function
-Create a Lambda function using Python runtime and attach the IAM role. Add logic to check EC2 CPU utilization and stop idle instances.
+📸 Screenshot: SNS topic created
 
-Step 5: Create a scheduled rule using EventBridge
-Configure an EventBridge rule with a rate-based schedule to invoke the Lambda function automatically.
+🔹 3. Subscribe an Email to SNS
+Inside the SNS topic → Create subscription
+Protocol: Email
+Endpoint: Your email address
+Confirm the subscription from your inbox
 
-✅ Testing and Validation
+📸 Screenshot: Email subscription confirmed
 
-Keep the EC2 instance idle.
-Wait for the EventBridge rule to trigger the Lambda function.
-Verify that the EC2 instance state changes from running to stopped.
-Check CloudWatch logs for Lambda execution details.
-Confirm receipt of SNS email notification.
+🔹 4. Create IAM Role for Lambda
+Create an IAM role for Lambda and attach permissions for EC2, CloudWatch, and SNS access.
+
+📸 Screenshot: IAM role permissions
+
+🔹 5. Create Lambda Function
+Create a Lambda function using Python runtime.
+Attach the IAM role and add logic to check EC2 CPU usage and stop idle instances.
+
+📸 Screenshot: Lambda code and deployment
+
+🔹 6. Create Scheduled Rule (EventBridge)
+Create an EventBridge rule using the visual rule builder.
+Configure a rate-based schedule (for example: every 30 minutes).
+Set the Lambda function as the target.
+
+📸 Screenshot: EventBridge rule configuration
+
+✅ Testing the System
+
+Keep the EC2 instance idle
+Wait for EventBridge to invoke the Lambda function
+Verify EC2 state change from Running → Stopped
+Check Lambda logs in CloudWatch
+Confirm SNS email notification
+
+📸 Screenshot: EC2 stopped
+📸 Screenshot: Lambda logs
+📸 Screenshot: Email alert
 
 📈 Outcome
 
-The project successfully reduced unnecessary EC2 runtime by automatically stopping idle instances. It demonstrated real-world cloud cost optimization using serverless AWS services.
+The project successfully automated the detection and stopping of idle EC2 instances, reducing unnecessary cloud costs and manual operational effort.
 
 🔮 Future Enhancements
 
-Add tag-based protection for production instances.
-Calculate and display cost savings.
-Automatically restart instances during business hours.
-Extend the solution to support multiple AWS accounts.
+Add tag-based protection for production instances
+Calculate estimated cost savings
+Automatically restart instances during business hours
+Extend support for multi-account environments
 
 🏁 Conclusion
 
-This project provided hands-on experience with AWS automation, serverless architecture, cloud monitoring, and cost optimization. It demonstrates how cloud-native services can be combined to solve real operational problems efficiently.
+This project provided hands-on experience with AWS automation, serverless architecture, cloud monitoring, and cost optimization. It demonstrates how real-world cloud challenges can be solved using AWS-native services.
 
 🧑‍💻 Author
 
