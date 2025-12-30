@@ -57,7 +57,7 @@ EventBridge triggers the Lambda function on a fixed schedule
                                                       Email Notification Sent
 
 ## 📦 Setup Guide
-🔹 1. Create an EC2 Test Instance
+## 🔹 1. Create an EC2 Test Instance
 
 Launch an EC2 instance using Amazon Linux
 
@@ -66,7 +66,7 @@ Keep the instance idle (no workload)
 <img width="1919" height="927" alt="Screenshot 2025-12-31 013129" src="https://github.com/user-attachments/assets/1807b5de-30cb-4539-be8f-37ecf2091cbd" />
 
 
-🔹 2. Create SNS Topic
+## 🔹 2. Create SNS Topic
 
 Go to Amazon SNS → Create topic
 
@@ -77,7 +77,7 @@ Name: ec2-idle-alerts
 <img width="1910" height="925" alt="Screenshot 2025-12-31 013425" src="https://github.com/user-attachments/assets/bd661f1d-1556-4988-bfdd-3fd9138d040b" />
 
 
-🔹 3. Subscribe Email to SNS
+## 🔹 3. Subscribe Email to SNS
 
 Open the SNS topic
 
@@ -92,7 +92,7 @@ Confirm subscription from inbox
 <img width="1919" height="610" alt="image" src="https://github.com/user-attachments/assets/f471bb78-9845-4215-9184-8903c5e74da3" />
 
 
-🔹 4. Create IAM Role for Lambda
+## 🔹 4. Create IAM Role for Lambda
 
 Attach the following permissions:
 
@@ -105,7 +105,7 @@ AmazonSNSFullAccess
 <img width="1516" height="364" alt="Screenshot 2025-12-31 013718" src="https://github.com/user-attachments/assets/da4b2766-7d20-4dd9-9c55-96f322f5a1ca" />
 
 
-🔹 5. Create Lambda Function
+## 🔹 5. Create Lambda Function
 
 Runtime: Python
 
@@ -123,7 +123,7 @@ Send SNS email
 <img width="1918" height="916" alt="Screenshot 2025-12-31 014348" src="https://github.com/user-attachments/assets/cff52a34-e41e-4514-8f45-ae45fc570f7f" />
 
 
-🔹 6. Create Scheduled Rule (EventBridge)
+## 🔹 6. Create Scheduled Rule (EventBridge)
 
 Create a rule using Visual Rule Builder
 
@@ -183,4 +183,5 @@ This project demonstrates how AWS serverless services can be combined to solve r
 Your Name
 🔗 GitHub: your-github-link
 🔗 LinkedIn: your-linkedin-link
+
 
