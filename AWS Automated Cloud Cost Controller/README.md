@@ -36,7 +36,7 @@ EventBridge triggers the Lambda function on a fixed schedule
 
 ## 📐 Architecture Overview
 
-![Uploading Cloud Project 1 architecture..png…]()
+<img width="1040" height="360" alt="Cloud Project 1 architecture" src="https://github.com/user-attachments/assets/fc4cca4f-bce9-470b-97b0-0030acb2e827" />
 
 
 <img width="902" height="624" alt="image" src="https://github.com/user-attachments/assets/a9ba9e99-6056-4aca-ba5a-cfefb8d89e53" />
@@ -170,6 +170,7 @@ This project demonstrates how AWS serverless services can be combined to solve r
 Your Name
 🔗 GitHub: your-github-link
 🔗 LinkedIn: your-linkedin-link
+
 
 
 
