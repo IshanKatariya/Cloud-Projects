@@ -84,6 +84,9 @@ Block public access
 
 Enable default encryption (SSE-S3)
 
+<img width="1919" height="921" alt="Screenshot 2025-12-31 102958" src="https://github.com/user-attachments/assets/3bc9845d-8c34-4c20-99a6-3c583cd500bd" />
+
+
 2️⃣ Create IAM Role for Lambda
 
 Permissions:
@@ -94,6 +97,7 @@ Custom policy for s3:PutObject (summary storage)
 
 CloudWatchLogsFullAccess
 
+
 3️⃣ Create Lambda Function
 
 Runtime: Python 3.10
@@ -103,6 +107,8 @@ Memory: 512 MB
 Timeout: 30 seconds
 
 Execution role: Custom IAM role
+
+<img width="1919" height="922" alt="Screenshot 2025-12-31 103234" src="https://github.com/user-attachments/assets/1d7fdb77-de3e-424f-abf4-14a1b0068330" />
 
 4️⃣ Lambda Logic
 
@@ -117,6 +123,11 @@ Cleans extracted text
 Applies lightweight NLP summarization
 
 Saves summary back to S3
+
+**LAMBDA CODE:**
+
+<img width="1905" height="907" alt="Screenshot 2025-12-31 105345" src="https://github.com/user-attachments/assets/6fefcc74-e1bd-4c6d-851c-fe9f156ce01c" />
+
 
 5️⃣ API Gateway
 
@@ -134,12 +145,25 @@ Trigger Lambda via test event or API
 
 Verify:
 
-Lambda returns status 200
+**Lambda returns status 200**
 
-Summary file appears in S3
+<img width="1919" height="926" alt="Screenshot 2025-12-31 113314" src="https://github.com/user-attachments/assets/b6659d20-e1ce-45f3-8d4a-aa1b9ebe15bd" />
+
+
+
+**Summary file appears in S3**
+<img width="1919" height="921" alt="Screenshot 2025-12-31 113411" src="https://github.com/user-attachments/assets/39aaa0b2-30b7-418a-afd8-6b0999c7e201" />
+
+
+
+<img width="1919" height="777" alt="Screenshot 2025-12-31 114355" src="https://github.com/user-attachments/assets/211264ff-7ad7-4d14-bacb-313e1c211470" />
+
+
 
 original_file.pdf
 original_file_summary.txt
+
+
 
 ## ⚠️ Limitations
 
@@ -168,4 +192,5 @@ Ishaan Katariya
 GitHub: [IshaanKatariya](https://github.com/IshanKatariya)
 
 LinkedIn: [IshaanKatariya](https://www.linkedin.com/in/ishaan-katariya-268b8534a/)
+
 
