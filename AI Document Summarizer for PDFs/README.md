@@ -62,6 +62,9 @@ The generated summary is saved back to S3 as a text file
 
 ## 🏗️ Architecture
 
+<img width="551" height="271" alt="Cloud Project ( pdf summarizer ) architecture" src="https://github.com/user-attachments/assets/605264c2-8a19-442c-83f9-9141cb01734d" />
+
+
 Flow:
 
 User / API
@@ -162,6 +165,7 @@ Built a serverless AI-powered PDF document summarizer using AWS Lambda and NLP t
 
 Ishaan Katariya
 
-GitHub: add your link
+GitHub: [IshaanKatariya](https://github.com/IshanKatariya)
 
-LinkedIn: add your link
+LinkedIn: [IshaanKatariya](https://www.linkedin.com/in/ishaan-katariya-268b8534a/)
+
