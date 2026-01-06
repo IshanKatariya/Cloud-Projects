@@ -1,136 +1,165 @@
-## 🌦️ SkyCast – Serverless Weather Web App (AWS Lambda + SNS)
-A fully serverless, cloud-native weather web application that displays real-time weather information through a browser-based UI, fetches live data from a public weather API, and sends automated weather reports via Amazon SNS — built using AWS Free Tier services.
+## 💰 Expense Tracker Dashboard (AWS + Power BI)
+
+A cloud-based expense tracking system that stores financial data in AWS RDS (MySQL) and visualizes spending patterns using Power BI dashboards.
+This project demonstrates end-to-end data flow from application layer to cloud database and business intelligence reporting.
 
 ## 🚀 Project Overview
-Checking weather is a common daily requirement, but most applications rely on traditional servers.  
-SkyCast demonstrates how a **modern, serverless web application** can be built using AWS services without managing any infrastructure.
 
-This project:
-- Serves an HTML web page directly from AWS Lambda
-- Fetches real-time weather data using an external API
-- Sends automated weather reports via email using Amazon SNS
-- Uses API Gateway as the HTTP interface
-- Runs fully serverless with zero server management
+Managing personal or organizational expenses requires structured storage and clear insights.
+This project enables users to:
+
+Store expense data securely in AWS RDS
+
+Query and analyze expenses using SQL
+
+Visualize trends and insights using Power BI
+
+Track spending by category, date, and payment mode
 
 ## 🛠️ Tech Stack
-- AWS Lambda (Python) – Backend logic + HTML rendering
-- Amazon API Gateway (HTTP API) – Web endpoint & routing
-- Amazon SNS – Weather report notifications (Email/SMS)
-- OpenWeather API – Real-time weather data
-- HTML, CSS, JavaScript – Frontend UI
-- Amazon CloudWatch Logs – Monitoring & debugging
 
-✅ 100% Serverless  
-✅ AWS Free Tier compatible  
-❌ No EC2  
-❌ No Containers  
-❌ No Databases  
+Python – Data insertion and database connectivity
 
-## 🎯 Project Use Case
-SkyCast can be used for:
-- 🌍 Real-time weather lookup from any browser
-- 📩 Automated weather email alerts
-- 🎓 Learning serverless web architecture
-- 💼 Cloud & DevOps portfolio projects
-- 🚀 Hackathons and academic demonstrations
+AWS RDS (MySQL Community Edition) – Cloud database
+
+Amazon EC2 / Local Machine – Python execution environment
+
+Power BI Desktop – Data visualization and dashboard creation
+
+SQL – Querying and analysis
+
+## 📌 Use Case
+
+Personal finance tracking
+
+Expense analysis for small businesses
+
+Demonstrating cloud database + BI integration
+
+Resume-ready cloud analytics project
 
 ## 🧠 How It Works
-1. User opens the API Gateway base URL in a browser
-2. AWS Lambda returns an HTML weather web page
-3. User enters a city name and clicks Search
-4. JavaScript calls the `/weather` API endpoint
-5. Lambda fetches real-time data from OpenWeather API
-6. Weather data is returned to the webpage
-7. Lambda publishes a weather report to Amazon SNS
-8. User receives the report via email/SMS
+
+Expense data is inserted into AWS RDS (MySQL) using Python
+
+Data is stored in a structured expenses table
+
+Power BI connects directly to the RDS database
+
+Dashboards visualize totals, trends, and category-wise spending
 
 ## 🏗️ Architecture
 
-<img width="770" height="340" alt="Cloud Project (weather api ) architecture" src="https://github.com/user-attachments/assets/5006f73c-a37a-4b07-8856-2a0a499ef887" />
 
-Flow:
+<img width="552" height="282" alt="Cloud Project (expense tracker ) architecture" src="https://github.com/user-attachments/assets/f9709173-5028-43c3-87c9-9242d54039ae" />
 
-User Browser  
-↓  
-Amazon API Gateway (HTTP API)  
-↓  
-AWS Lambda  
-↓  
-OpenWeather API (Weather Data)  
-↓  
-Amazon SNS (Email Notification)
+Client / Python Script → AWS RDS (MySQL) → Power BI Dashboard
 
-## 📦 Setup & Implementation
+Services used:
 
-## 1️⃣ Create SNS Topic
-- Create a Standard SNS topic
-- Add an Email subscription
-- Confirm the subscription from your inbox
+AWS RDS
 
-![WhatsApp Image 2025-12-31 at 2 36 17 PM](https://github.com/user-attachments/assets/502fd730-3933-4463-82c9-885cd0487e09)
+MySQL
 
+Power BI
 
-## 2️⃣ Create IAM Role for Lambda
-Permissions:
-- AmazonSNSFullAccess
-- CloudWatchLogsFullAccess
+## 🗄️ Database Schema
+
+**Table: expenses**
+
+Column Name	          Type	        Description
+id	                 INT (PK)	      Expense ID
+date	               DATE	          Expense date
+category	           VARCHAR	      Expense category
+amount	             DECIMAL	      Amount spent
+payment_mode         VARCHAR	      Cash / UPI / Card
+description	         VARCHAR	      Expense details
 
 
-## 3️⃣ Create Lambda Function
-- Runtime: Python 3.10
-- Handler: index.lambda_handler
-- Timeout: 10 seconds
-- Execution Role: Custom IAM role
-
-![WhatsApp Image 2025-12-31 at 4 07 46 PM](https://github.com/user-attachments/assets/1f61efd2-0818-4ee3-b614-3b682c49c489)
+## 🧪 Sample Python Code
 
 
-Lambda responsibilities:
-- Serve HTML page at `/`
-- Handle weather API requests at `/weather`
-- Publish weather report to SNS
+    import mysql.connector
+    
+    conn = mysql.connector.connect(
+        host="database-1.cpk6cwm6unvq.eu-north-1.rds.amazonaws.com",
+        user="admin",
+        password="Aaryaagrawal120",
+        database="expense_db"
+    )
+    
+    cursor = conn.cursor()
+    
+    query = """
+    INSERT INTO expenses (date, category, amount, payment_mode, description)
+    VALUES (%s, %s, %s, %s, %s)
+    """
+    
+    data = ("2026-01-02", "Food", 300, "UPI", "Dinner")
+    
+    cursor.execute(query, data)
+    conn.commit()
+    
+    print("Expense added successfully")
+    
+    cursor.close()
+    conn.close()
 
-## 4️⃣ API Gateway Configuration
-- API Type: HTTP API
-- Routes:
-  - GET `/` → Lambda (HTML UI)
-  - GET `/weather` → Lambda (JSON response)
-- Enable CORS (Allow all origins)
-- Deploy API
 
-## 5️⃣ Frontend (Embedded HTML)
-- HTML, CSS, and JavaScript are embedded directly inside Lambda
-- Browser renders the UI when API Gateway base URL is opened
-- Fetch API is used to retrieve live weather data
 
-## 🧪 Testing
-1. Open the API Gateway base URL in browser  
-   → HTML page loads
-2. Enter a city name and click Search  
-   → Weather details appear on screen
-    ![WhatsApp Image 2025-12-31 at 4 08 35 PM](https://github.com/user-attachments/assets/7ffcefb4-41cc-466b-ba97-793a38d4f03e)
+## 🧪 MYSQL Query
 
-3. Check email inbox  
-   → SNS weather report received
-    ![WhatsApp Image 2025-12-31 at 4 08 35 PM](https://github.com/user-attachments/assets/96841ade-c3e8-44a2-87bc-3da50b03fd4e)
+    CREATE DATABASE expensedb;
+    
+    USE expense_tracker;
+    
+    CREATE TABLE expenses (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        date DATE,
+        category VARCHAR(50),
+        amount DECIMAL(10,2),
+        payment_mode VARCHAR(30),
+        description VARCHAR(100)
+    );
 
-## ⚠️ Limitations
-- Depends on external weather API availability
-- Requires active SNS email subscription
-- Basic UI (can be enhanced further)
+
+## 📸 Dashboard Preview
+
+![WhatsApp Image 2026-01-06 at 7 16 29 PM](https://github.com/user-attachments/assets/d7e51ec5-c417-49d0-94d0-05f155947c2d)
+![WhatsApp Image 2026-01-06 at 7 14 35 PM](https://github.com/user-attachments/assets/197752f2-a3a7-4483-bf70-c33e8214d003)
+
+![WhatsApp Image 2026-01-06 at 8 25 57 PM](https://github.com/user-attachments/assets/0eeb7955-5370-4099-baf2-bddefd8a30e7)
+
+
+## ✅ Key Learnings
+
+AWS RDS configuration and connectivity
+
+MySQL database design
+
+Python-to-cloud database integration
+
+Power BI data modeling and visualization
+
+Real-world cloud analytics workflow
 
 ## 🔮 Future Enhancements
-- Add DynamoDB to store search history
-- Add forecast (next 5 days)
-- Deploy frontend separately using S3 static hosting
-- Add user-specific subscriptions
-- Improve UI with icons & animations
 
-## 🧾 Resume Bullet
-Built a fully serverless weather web application using AWS Lambda and API Gateway to render an HTML frontend, fetch real-time weather data from a public API, and send automated weather reports via Amazon SNS.
+Web-based expense input form
+
+User authentication
+
+Budget alerts and notifications
+
+Monthly expense forecasting
+
+Power BI service publishing
+
+
+
 
 ## 🧑‍💻 Author
 Aarya Agrawal  
 
-GitHub: [Aarya Agrawal]()  
+GitHub: [Aarya Agrawal](https://github.com/Aaryagrawal)  
 LinkedIn: [Aarya Agrawal](https://www.linkedin.com/in/aaryaagrawal65/)
