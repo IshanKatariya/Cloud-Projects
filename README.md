@@ -1,115 +1,167 @@
-## 🎓 Student Registration System (AWS Full-Stack Project)
+## ☁️ Cloud Data Analytics Pipeline using AWS & Power BI
 
-A fully deployed cloud-based student registration system built using Flask, AWS EC2, Amazon RDS (MySQL) and cloud networking.
-The application allows students to register via a web form, stores data securely in RDS, and provides an admin dashboard to view all records.
+This project demonstrates a real-world cloud-based data analytics pipeline that automatically ingests, processes, stores, and visualizes business data using AWS and Power BI.
 
-## 🔥 Live Project Features
+The system uses Amazon S3 for data storage, AWS Glue for ETL, Amazon Redshift as a data warehouse, and Power BI for analytics and reporting.
 
-**1. Student Registration:**  Web form collects name, email, course & age
+---
 
-**2. Cloud Database:**	 Data stored in Amazon RDS (MySQL)
+## 🧠 Project Overview
 
-**3. Flask Backend:**	 Handles form submission & DB operations
+The pipeline automates the flow of sales data from raw CSV files into a structured data warehouse and visualizes business insights in Power BI.
 
-**4. Admin Dashboard:**	 View all registered students in a table
-
-**5. Cloud Deployment:**	 Deployed on AWS EC2 with public IP
-
-**6. Secure Architecture:**	 EC2 ↔ RDS communication via Security Groups
-
-## 🖥️ Screenshots (Project Proof)
+### Data Flow
 
 
-**1. Hosted on EC2:**	Reads data from Amazon RDS
-    
+Whenever a new CSV file is uploaded to S3, the ETL pipeline processes it and updates the analytics dashboard automatically.
 
-**2. Form → Flask → MySQL:** Displays student records
+---
 
-<img width="1364" height="718" alt="image" src="https://github.com/user-attachments/assets/1c3f1380-c623-457f-b05a-0bb551bd6bdf" />
+## 🛠 Technologies Used
 
-<img width="1350" height="321" alt="image" src="https://github.com/user-attachments/assets/bde442c0-8f7f-47be-b733-4e8130c3a0d4" />
+| Layer | Technology |
+|------|-----------|
+| Storage | Amazon S3 |
+| Data Catalog | AWS Glue Data Catalog |
+| ETL Engine | AWS Glue |
+| Data Warehouse | Amazon Redshift Serverless |
+| Visualization | Power BI |
+| Networking | VPC, S3 VPC Endpoint |
+| Security | IAM, Security Groups |
 
-![WhatsApp Image 2026-01-08 at 6 00 43 PM](https://github.com/user-attachments/assets/7246d425-deaf-471d-85e5-bb11ec1aa9c2)
+---
 
-<img width="1362" height="667" alt="image" src="https://github.com/user-attachments/assets/77126475-87c3-4755-b70c-985267993cc8" />
+## 📂 Dataset
 
-![WhatsApp Image 2026-01-08 at 5 49 02 PM](https://github.com/user-attachments/assets/9d2c31af-2ce9-46e9-b81a-b08600ab94c9)
+The project uses a sales dataset (`sales.csv`) with the following columns:
 
+- order_id  
+- order_date  
+- customer_name  
+- product  
+- category  
+- quantity  
+- price  
+- region  
+- payment_method  
 
-## 🧱 Tech Stack
+---
 
-**1.Frontend:**	HTML, CSS
+## 🏗 Architecture
 
-**2.Backend:** Flask (Python)
+The system follows a **cloud-native data analytics architecture** where data moves through multiple AWS services before being visualized in Power BI.
 
-**3.Database:**	Amazon RDS (MySQL)
-
-**4.Cloud Server:**	AWS EC2
-
-**5.Networking:**	AWS Security Groups
-
-**6.OS:**	Amazon Linux
-
-**7.Deployment:**	Gunicorn + Flask
-
-## 🧠 System Architecture
-
-<img width="1021" height="450" alt="Cloud Project ( FULLL WEB APP ) architecture" src="https://github.com/user-attachments/assets/65248ce0-d79b-4674-b719-9b48879d53ab" />
-
-
-User Browser
-     |
-     |  (HTTP Request)
-     v
-AWS EC2 (Flask App)
-     |
-     |  (MySQL Query)
-     v
-Amazon RDS (MySQL Database)
-     |
-     |  (Results)
-     v
-AWS EC2 → User Browser
+<img width="650" height="370" alt="Cloud Project ( Pipeline database ) architecture" src="https://github.com/user-attachments/assets/0a4f114b-0f2c-4325-b104-8c3afa4d5351" />
 
 
-This is a true production-style 3-tier cloud application.
+## 📸Screenshots 
+
+<img width="1365" height="427" alt="image" src="https://github.com/user-attachments/assets/d194f503-ef1f-4429-b377-dbb83c37bef4" />
+<img width="1365" height="497" alt="image" src="https://github.com/user-attachments/assets/50e242c0-4a3b-47d6-82cb-71876f2c21e8" />
+<img width="1365" height="660" alt="image" src="https://github.com/user-attachments/assets/0cb7b564-b3b7-4322-a77a-21efa45cc9e4" />
+<img width="1365" height="651" alt="image" src="https://github.com/user-attachments/assets/8c5ddafd-0fc5-4b8b-99cb-a77b7c6796de" />
+<img width="1365" height="452" alt="image" src="https://github.com/user-attachments/assets/31a28406-be74-4725-96d8-64e7e7b8d1d7" />
+
+<img width="833" height="291" alt="image" src="https://github.com/user-attachments/assets/f4327d64-d86f-4024-ae38-d77731043c8f" />
 
 
+## ⚙️ How the Pipeline Works
+
+1. **Data Ingestion**
+   - Sales CSV files are uploaded to Amazon S3.
+   - The raw data is stored in a secure S3 bucket.
+
+2. **Schema Detection**
+   - AWS Glue Crawler scans the S3 bucket and creates table metadata in the Glue Data Catalog.
+
+3. **Data Transformation**
+   - AWS Glue Visual ETL job:
+     - Reads data from Glue Catalog
+     - Converts numeric columns (price, quantity)
+     - Cleans data
+     - Prepares it for analytics
+
+4. **Data Loading**
+   - AWS Glue loads the transformed data into Amazon Redshift Serverless.
+
+5. **Analytics**
+   - Power BI connects to Redshift and displays dashboards such as:
+     - Total Revenue
+     - Sales by Region
+     - Product Performance
+     - Payment Method Distribution
+     - Sales Trend
+
+---
+
+## 📊 Power BI Measures
+
+Revenue is calculated using:
+
+```DAX
+Total Revenue = 
+SUMX(
+    sales_analytics,
+    sales_analytics[price] * sales_analytics[quantity]
+)
+```
+
+## 📈 Dashboards Built
+
+1. **Total Revenue (KPI Card)**
+
+2. **Sales by Region (Bar Chart)**
+
+3. **Sales by Category (Pie Chart)**
+
+4. **Top Products (Table)**
+
+5. **Payment Method Distribution (Donut Chart)**
+
+6. **Sales Trend over Time (Line Chart)**
+
+## 🚀 Key Features
+
+1. **Fully automated ETL pipeline**
+
+2. **Secure AWS VPC networking**
+
+3. **Scalable cloud data warehouse**
+
+4. **Real-time BI dashboards**
+
+5. **Enterprise-grade data engineering architecture**
+
+## 🧑‍💻 Use Cases
+
+1. **Sales performance tracking**
+
+2. **Business intelligence**
+
+3. **Financial reporting**
+
+4. **Data engineering portfolios**
+
+5. **Cloud analytics demonstrations**
 
 
-## 🧪 Sample Data Stored
+## 📌 Future Enhancements
 
-ID	        Name	        Email	            Course	Age
+1. **Add AWS Lambda for event-based automation**
 
-1	          Aarya Agarwal	aarya@gmail.com   BCA	    21
+2. **Enable incremental data loading**
 
+3. **Add streaming data support**
 
-This data is live inside Amazon RDS.
+4. **Integrate authentication for dashboards**
 
-## 🚀 How It Works
-
-1. User opens EC2 public IP
-
-2. Registration form loads
-
-3. User submits details
-
-4. Flask validates data
-
-5. Data stored in Amazon RDS
-
-6. Admin accesses /admin
-
-7. Flask queries MySQL
-
-8. Table renders live student data
+5. **Add data quality checks**
 
 
+## 🧑‍💻 Author
 
-🧑‍💻 Author
+Arya Agrawal
 
-Aarya Agrawal
+GitHub: [AryaAgrawal](https://github.com/Aaryagrawal)
 
-GitHub: [AaryaAgrawal](https://github.com/Aaryagrawal)
-
-LinkedIn: [AaryaAgrawal](https://www.linkedin.com/in/aaryaagrawal65/)
+LinkedIn: [AryaAgrawal](https://www.linkedin.com/in/aaryaagrawal65/)
